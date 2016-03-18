@@ -139,6 +139,10 @@ function writeFileToAssets(opts) {
   var forceWrite = opts.forceWrite;
   var lastGlobalUpdate = opts.lastGlobalUpdate;
 
+  // normalize path seperator before injecting into assets
+  // webpack-dev-middleware's in memory-filesystem churns otherwise
+  relFileDest = relFileDest.replace(/\\/g, path.posix.sep);
+
   if (compilation.assets[relFileDest] && !forceWrite) {
     return Promise.resolve();
   }
